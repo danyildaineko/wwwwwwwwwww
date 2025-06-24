@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Zurich 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo::before,
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: #ffffff;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .logo::before {
+            left: -80px;
+        }
+
+        .logo::after {
+            right: -80px;
+        }
+
+        .website-url {
+            font-size: 1.1rem;
+            color: #888;
+            letter-spacing: 1px;
+            margin: 20px 0;
+        }
+
+        .location-year {
+            font-size: 1.3rem;
+            margin: 30px 0;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #ccc;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            padding: 40px 0 80px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 2px solid #333;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            border-color: #666;
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        .item-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .item-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-1 {
+            top: 20%;
+            right: 10%;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #333;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-2 {
+            bottom: 30%;
+            left: 5%;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #444;
+            transform: rotate(45deg);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .logo::before,
+            .logo::after {
+                width: 40px;
+            }
+            
+            .logo::before {
+                left: -60px;
+            }
+            
+            .logo::after {
+                right: -60px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .floating-element {
+                display: none;
+            }
+        }
+
+        /* Loading animation */
+        .gallery-item {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorative elements -->
+    <div class="floating-element floating-1"></div>
+    <div class="floating-element floating-2"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1 class="logo">CREW</h1>
+            <div class="website-url">@ www.crew.tt</div>
+            <div class="location-year">Zurich • 2025</div>
+            <div class="subtitle">Gallery</div>
+        </header>
+
+        <!-- Gallery Section -->
+        <section class="gallery">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Urban Landscapes</div>
+                        <div class="item-description">Contemporary city photography</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Abstract Forms</div>
+                        <div class="item-description">Geometric compositions</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Portrait Series</div>
+                        <div class="item-description">Human expressions</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Nature Studies</div>
+                        <div class="item-description">Organic textures</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Light & Shadow</div>
+                        <div class="item-description">Experimental lighting</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="item-content">
+                        <div class="item-title">Digital Art</div>
+                        <div class="item-description">Mixed media creations</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Add smooth scroll behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click interaction to gallery items
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Add a subtle pulse effect when clicked
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Add parallax effect to floating elements
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const floating1 = document.querySelector('.floating-1');
+                const floating2 = document.querySelector('.floating-2');
+                
+                if (floating1) {
+                    floating1.style.transform = `translateY(${scrolled * 0.2}px)`;
+                }
+                if (floating2) {
+                    floating2.style.transform = `translateY(${scrolled * -0.15}px) rotate(45deg)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
