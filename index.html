@@ -4,14 +4,23 @@
     <meta charset="UTF-8" />
     <title>wwwwwwwwwww</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/svg" href="images/hello-kitty.svg" />
+    <link rel="icon" type="image/png" href="images/web.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <div class="marquee"><span>wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww</span></div>
+    <div class="marquee"><span>wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwhellowwwwwwwwwwmynameiswwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww >dm me forcollaboration wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww</span></div>
     <!-- <div class="marquee"><span>wwwelcome wwwwww crew wwwwww gallery wwww bookings open for zurich 2k25 wwwww www dm in instagram wwww&nbsp;&nbsp;&nbsp;wwwelcome wwwwww crew wwwwww gallery wwww bookings open for zurich 2k25 wwwww www dm in instagram wwww</span></div> -->
     <div class="container"">
-        <header>crew</header>
+        <header>
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <img src="images/logo-modified.png" alt="Logo" style="height: 150px; margin-bottom: 5px;">
+            <div>crew</div>
+        </header>
         <main>
             <!-- <p>wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww</p> -->
             <div class="tags">
@@ -48,6 +57,8 @@
             </div>
             <div id="imgModal" class="modal">
                 <div class="modal-bg" onclick="closeModal()"></div>
+                <button class="nav-arrow left" onclick="showPreviousImage()">‹</button>
+                <button class="nav-arrow right" onclick="showNextImage()">›</button>
                 <img id="modalImg" src="" alt="modal image" onclick="closeModal()">
             </div>
             <footer>
@@ -81,6 +92,105 @@
             });
         });
         </script>
+        
     </div>
+    <script>
+    let galleryImages = [];
+    let currentIndex = 0;
+
+    function openModal(src) {
+        var modal = document.getElementById('imgModal');
+        var modalImg = document.getElementById('modalImg');
+        modalImg.src = src;
+        modal.classList.add('active');
+        currentIndex = galleryImages.findIndex(img => img.src === src);
+    }
+
+    function closeModal() {
+        var modal = document.getElementById('imgModal');
+        modal.classList.remove('active');
+    }
+
+        function showImage(index) {
+        if (index < 0) index = galleryImages.length - 1;
+        if (index >= galleryImages.length) index = 0;
+        currentIndex = index;
+        document.getElementById('modalImg').src = galleryImages[currentIndex].src;
+    }
+
+        function showNextImage() {
+            showImage(currentIndex + 1);
+        }
+
+        function showPreviousImage() {
+            showImage(currentIndex - 1);
+        }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+
+        document.querySelector('.gallery').addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                openModal(e.target.src);
+            }
+        });
+
+        document.querySelector('.modal-bg').addEventListener('click', closeModal);
+        document.getElementById('modalImg').addEventListener('click', closeModal);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('imgModal').classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+            if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+        });
+
+        // Touch/mouse swipe navigation
+        let startX = 0;
+        let isTouch = false;
+        const modalImg = document.getElementById('modalImg');
+
+        modalImg.addEventListener('touchstart', function(e) {
+            isTouch = true;
+            startX = e.touches[0].clientX;
+        });
+        modalImg.addEventListener('touchend', function(e) {
+            if (!isTouch) return;
+            let endX = e.changedTouches[0].clientX;
+            if (endX - startX > 50) showImage(currentIndex - 1); // swipe right
+            if (startX - endX > 50) showImage(currentIndex + 1); // swipe left
+            isTouch = false;
+        });
+
+        // Mouse drag for desktop
+        let mouseDown = false, mouseStartX = 0;
+        modalImg.addEventListener('mousedown', function(e) {
+            mouseDown = true;
+            mouseStartX = e.clientX;
+        });
+        modalImg.addEventListener('mouseup', function(e) {
+            if (!mouseDown) return;
+            let mouseEndX = e.clientX;
+            if (mouseEndX - mouseStartX > 50) showImage(currentIndex - 1); // drag right
+            if (mouseStartX - mouseEndX > 50) showImage(currentIndex + 1); // drag left
+            mouseDown = false;
+        });
+    });
+    </script>
+    <script>
+        const modalImg = document.getElementById('modalImg');
+        
+        // Click left/right side of image to navigate
+        modalImg.addEventListener('click', function(e) {
+            const rect = modalImg.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            if (x < rect.width / 2) {
+                showImage(currentIndex - 1); // Left side
+            } else {
+                showImage(currentIndex + 1); // Right side
+            }
+        });
+    </script>
 </body>
 </html>
