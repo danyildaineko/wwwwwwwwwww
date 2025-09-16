@@ -30,6 +30,27 @@ header {
     letter-spacing: px;
     padding: 0 0 60px 0;
     font-family: 'DeathtrapDemo-6rR1', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+}
+
+header > div:first-of-type {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 2%;
+    width: 100%;
+    justify-content: center;
+}
+
+header img {
+    display: block;
+    height: 120px;
+    width: auto;
+    flex-shrink: 1;
+    max-width: calc((100% - 10%) / 6);
 }
 
 .www {
@@ -43,7 +64,7 @@ header {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
 }
 
@@ -117,4 +138,73 @@ footer {
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-40%); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .gallery {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .gallery {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    
+    header > div:first-of-type {
+        gap: 1%;
+    }
+    
+    header img {
+        height: 80px;
+        max-width: calc((100% - 5%) / 6);
+    }
+    
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    header img {
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    header img {
+        height: 60px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+}
+/* Responsive title size */
+h1, .title {
+  font-size: clamp(22px, 6vw, 32px);
+  line-height: 1.2;
+  /* Halve space below the title */
+  margin: 0 0 0.2em 0;
+  word-break: break-word;
 }
